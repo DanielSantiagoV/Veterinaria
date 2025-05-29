@@ -57,3 +57,31 @@ function esUnEstadoDeSaludValido(elEstado) {
     }
     return true;
 }
+
+/**
+ * Busca a un dueño por su número de cédula en nuestra lista.
+ * @param {string} elIdentificadorDelDueño - La cédula a buscar.
+ * @returns {object | undefined} El objeto dueño si se encuentra, o `undefined` si no.
+ */
+function encontrarDueñoPorCedula(elIdentificadorDelDueño) {
+    for (let i = 0; i < losAmosDeLasMascotas.length; i++) {
+        if (losAmosDeLasMascotas[i].numeroDeCedula === elIdentificadorDelDueño) {
+            return losAmosDeLasMascotas[i];
+        }
+    }
+    return undefined; // No se encontró.
+}
+
+/**
+ * Busca a una mascota por su nombre en nuestra lista.
+ * @param {string} elNombreAInvestigar - El nombre del animalito.
+ * @returns {object | undefined} El objeto mascota si se encuentra, o `undefined` si no.
+ */
+function encontrarMascotaPorNombre(elNombreAInvestigar) {
+    for (let i = 0; i < lasPequeñasCriaturas.length; i++) {
+        if (lasPequeñasCriaturas[i].nombreDeLaMascota === elNombreAInvestigar) {
+            return lasPequeñasCriaturas[i];
+        }
+    }
+    return undefined; // No se encontró.
+}
