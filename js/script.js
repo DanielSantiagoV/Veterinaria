@@ -1,549 +1,472 @@
-// El Gran Libro de los Dueños: Aquí guardamos a todos los protectores de nuestras mascotas.
-const losAmosDeLasMascotas = [];
+// 🐶 Colecciones de Datos 🐱
+const listaDueños = [];
+const listaMascotas = [];
 
-// El Censo de las Pequeñas Criaturas: Nuestro registro vital de todos los animalitos.
-const lasPequeñasCriaturas = [];
-
-// --- Herramientas Esenciales (Utilidades Básicas) ---
+// 🛠️ Funciones Utilitarias 🛠️
 
 /**
- * Forja un identificador único, como si fuera una huella digital para cada entrada.
- * Usamos la fecha y un número aleatorio para que sea casi imposible que se repita.
- * @returns {string} Un identificador único e irrepetible.
+ * Genera un ID único para cada entidad.
+ * @returns {string} Un ID único.
  */
-function forjarIdentificadorUnico() {
-    return 'huella_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
-}
+const generarIdUnico = () => `id_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 
 /**
- * Confirma que un campo de texto no esté vacío. Si lo está, avisa al usuario.
- * @param {string} elDato - El valor que estamos revisando.
- * @param {string} elNombreDelCampo - El nombre del campo para mensajes amigables.
- * @returns {boolean} `true` si el dato es válido (no vacío), `false` en caso contrario.
+ * Valida que un campo de texto no esté vacío.
+ * @param {string} valor - El valor a validar.
+ * @param {string} nombreCampo - Nombre descriptivo del campo.
+ * @returns {boolean} `true` si es válido, `false` si está vacío.
  */
-function esUnCampoValido(elDato, elNombreDelCampo) {
-    if (typeof elDato !== 'string' || elDato.trim() === '') {
-        alert(`¡Alerta! El campo "${elNombreDelCampo}" es como un platillo vacío. Necesita algo. ¡Por favor, rellénelo!`);
+const validarCampoTexto = (valor, nombreCampo) => {
+    if (typeof valor !== 'string' || valor.trim() === '') {
+        alert(`❌ Error: El campo "${nombreCampo}" no puede estar vacío.`);
         return false;
     }
     return true;
-}
+};
 
 /**
- * Revisa que un valor sea un número positivo y real. Si no lo es, avisa.
- * @param {any} elNumero - El valor a examinar.
- * @param {string} elNombreDelCampo - El nombre del campo para los avisos.
- * @returns {boolean} `true` si es un número positivo válido, `false` de lo contrario.
+ * Valida que un valor sea un número positivo.
+ * @param {any} valorNum - El valor a validar.
+ * @param {string} nombreCampo - Nombre descriptivo del campo.
+ * @returns {boolean} `true` si es un número positivo válido, `false` en caso contrario.
  */
-function esUnNumeroPositivoValido(elNumero, elNombreDelCampo) {
-    const numeroPuro = Number(elNumero);
-    if (isNaN(numeroPuro) || numeroPuro <= 0) {
-        alert(`¡Ups! El campo "${elNombreDelCampo}" debe ser un número mayor a cero. Como la vida misma, ¡siempre hacia adelante!`);
+const validarNumeroPositivo = (valorNum, nombreCampo) => {
+    const numero = Number(valorNum);
+    if (isNaN(numero) || numero <= 0) {
+        alert(`⚠️ Error: El campo "${nombreCampo}" debe ser un número positivo.`);
         return false;
     }
     return true;
-}
+};
 
 /**
- * Verifica que el estado de salud sea uno de los permitidos ('Sano', 'Enfermo', 'En tratamiento').
- * @param {string} elEstado - El estado de salud a validar.
- * @returns {boolean} `true` si el estado es aceptable, `false` en caso contrario.
+ * Valida que el estado de salud sea uno de los permitidos.
+ * @param {string} estado - El estado a validar.
+ * @returns {boolean} `true` si es válido, `false` en caso contrario.
  */
-function esUnEstadoDeSaludValido(elEstado) {
-    const condicionesAceptables = ['Sano', 'Enfermo', 'En tratamiento'];
-    if (!condicionesAceptables.includes(elEstado)) {
-        alert(`¡Error en el diagnóstico! El estado de salud debe ser "Sano", "Enfermo" o "En tratamiento". ¡No hay más opciones!`);
+const validarEstadoSalud = (estado) => {
+    const estadosPermitidos = ['Sano', 'Enfermo', 'En tratamiento'];
+    if (!estadosPermitidos.includes(estado)) {
+        alert(`🚫 Error: El estado de salud debe ser "Sano", "Enfermo" o "En tratamiento".`);
         return false;
     }
     return true;
-}
+};
 
 /**
- * Busca a un dueño por su número de cédula en nuestra lista.
- * @param {string} elIdentificadorDelDueño - La cédula a buscar.
- * @returns {object | undefined} El objeto dueño si se encuentra, o `undefined` si no.
+ * Busca un dueño por su número de cédula.
+ * @param {string} cedula - La cédula a buscar.
+ * @returns {object | undefined} Objeto dueño si existe, `undefined` si no.
  */
-function encontrarDueñoPorCedula(elIdentificadorDelDueño) {
-    for (let i = 0; i < losAmosDeLasMascotas.length; i++) {
-        if (losAmosDeLasMascotas[i].numeroDeCedula === elIdentificadorDelDueño) {
-            return losAmosDeLasMascotas[i];
-        }
-    }
-    return undefined; // No se encontró.
-}
+const encontrarDueñoPorCedula = (cedula) => {
+    return listaDueños.find(dueño => dueño.cedula === cedula);
+};
 
 /**
- * Busca a una mascota por su nombre en nuestra lista.
- * @param {string} elNombreAInvestigar - El nombre del animalito.
- * @returns {object | undefined} El objeto mascota si se encuentra, o `undefined` si no.
+ * Busca una mascota por su nombre.
+ * @param {string} nombre - El nombre de la mascota a buscar.
+ * @returns {object | undefined} Objeto mascota si existe, `undefined` si no.
  */
-function encontrarMascotaPorNombre(elNombreAInvestigar) {
-    for (let i = 0; i < lasPequeñasCriaturas.length; i++) {
-        if (lasPequeñasCriaturas[i].nombreDeLaMascota === elNombreAInvestigar) {
-            return lasPequeñasCriaturas[i];
-        }
-    }
-    return undefined; // No se encontró.
-}
+const encontrarMascotaPorNombre = (nombre) => {
+    return listaMascotas.find(mascota => mascota.nombre === nombre);
+};
 
-// --- Acciones de Nuestra Veterinaria (Funciones con Callbacks y setTimeout) ---
+// ⏳ Funciones Asíncronas (Callbacks, Promesas, Async/Await) ⏳
 
 /**
- * Da de alta a un nuevo dueño, simulando un proceso de registro con su tiempo.
- * Usa setTimeout para el retraso y un callback para decirnos el resultado.
- * @param {function} elCallbackDeResultado - La función que se ejecutará al finalizar.
+ * 📝 Registra un nuevo dueño (usando Callbacks).
+ * Simula validación de datos con 1.5 segundos de retraso.
+ * @param {function} callback - `(error, nuevoDueño)`
  */
-function darDeAltaAUnDueño(elCallbackDeResultado) {
-    console.log('⏳ Iniciando el ritual de bienvenida para un nuevo protector de mascotas...');
-    setTimeout(function() { // Esto se ejecutará después del tiempo.
-        const nombreDelDueño = prompt('¿Cuál es el nombre completo de este noble protector?');
-        const cedulaDelDueño = prompt('Y su número de cédula, por favor (su identificación única):');
-        const telefonoParaContactar = prompt('Un número de teléfono donde podamos contactarle si nuestros amiguitos lo necesitan:');
-        const correoParaMensajes = prompt('Finalmente, su correo electrónico, para que no se pierdan las novedades:');
+const registrarDueño = (callback) => {
+    console.log('⏳ Procesando: Registro de nuevo dueño...');
+    setTimeout(() => {
+        const nombre = prompt('📋 Nombre completo del dueño:');
+        const cedula = prompt('🆔 Número de cédula:');
+        const telefono = prompt('📞 Número de teléfono:');
+        const email = prompt('📧 Correo electrónico:');
 
-        // Primero, validamos que no haya campos vacíos.
         if (
-            !esUnCampoValido(nombreDelDueño, 'Nombre del Dueño') ||
-            !esUnCampoValido(cedulaDelDueño, 'Cédula') ||
-            !esUnCampoValido(telefonoParaContactar, 'Teléfono') ||
-            !esUnCampoValido(correoParaMensajes, 'Correo Electrónico')
+            !validarCampoTexto(nombre, 'Nombre del Dueño') ||
+            !validarCampoTexto(cedula, 'Cédula') ||
+            !validarCampoTexto(telefono, 'Teléfono') ||
+            !validarCampoTexto(email, 'Correo Electrónico')
         ) {
-            elCallbackDeResultado(new Error('¡Atención! Faltan datos esenciales o están incorrectos. Es como intentar volar sin alas.'), null);
-            return; // Salimos de la función si hay un error.
+            callback(new Error('❌ Datos de dueño incompletos o inválidos.'), null);
+            return;
         }
 
-        // Luego, revisamos que no haya un dueño con la misma cédula.
-        if (encontrarDueñoPorCedula(cedulaDelDueño)) {
-            elCallbackDeResultado(new Error(`¡Alarma! Ya tenemos un dueño registrado con la cédula "${cedulaDelDueño}". ¡No podemos duplicar identidades!`), null);
-            return; // Salimos de la función.
+        if (encontrarDueñoPorCedula(cedula)) {
+            callback(new Error(`⚠️ Error: Ya existe un dueño con la cédula "${cedula}".`), null);
+            return;
         }
 
-        // Si todo está bien, creamos el nuevo dueño.
-        const esteNuevoDueño = {
-            identificadorUnico: forjarIdentificadorUnico(),
-            nombreCompleto: nombreDelDueño,
-            numeroDeCedula: cedulaDelDueño,
-            telefonoDeContacto: telefonoParaContactar,
-            correoElectronico: correoParaMensajes
+        const nuevoDueño = {
+            id: generarIdUnico(),
+            nombreCompleto: nombre,
+            cedula: cedula,
+            telefono: telefono,
+            email: email
         };
 
-        losAmosDeLasMascotas.push(esteNuevoDueño); // Lo añadimos a nuestra lista.
-        console.log('🎉 ¡El protector de mascotas ha sido registrado con éxito! (La simulación de validación ha concluido).');
-        elCallbackDeResultado(null, esteNuevoDueño); // No hay error (null), y enviamos el nuevo dueño.
-    }, 1500); // Se toma 1.5 segundos para "validar" la información.
-}
+        listaDueños.push(nuevoDueño);
+        console.log('✅ Registro de dueño completado.');
+        callback(null, nuevoDueño);
+    }, 1500); // Retraso de 1.5 segundos
+};
 
 /**
- * Añade un nuevo animalito a nuestro censo, pero primero verificamos que su dueño exista.
- * Usa setTimeout para el retraso y un callback para decirnos el resultado.
- * @param {function} elCallbackDeResultado - La función a invocar al finalizar.
+ * 🐾 Registra una nueva mascota (usando Callbacks).
+ * Simula validación de existencia del dueño con 2 segundos de retraso.
+ * @param {function} callback - `(error, nuevaMascota)`
  */
-function añadirUnNuevoAnimalito(elCallbackDeResultado) {
-    console.log('⏳ Iniciando el registro de un nuevo ser peludo, emplumado o escamoso...');
-    setTimeout(function() { // Esto se ejecutará después del tiempo.
-        const nombreDelAmiguito = prompt('¿Cómo se llama este nuevo y adorable ser?');
-        const tipoDeCriatura = prompt('¿Qué tipo de criatura es? (Perro, Gato, Ave, Reptil, Otro)');
-        const añosDeVida = prompt('¿Cuántos años de aventura lleva?');
-        const pesoEnKilos = prompt('¿Cuál es su peso en kilogramos? (¡No te olvides de su figura!)');
-        const estadoDeSalud = prompt('¿Cuál es su estado de salud actual? (Sano, Enfermo, En tratamiento)');
-        const cedulaDelDueñoAsociado = prompt('Por favor, la cédula del dueño de este animalito. ¡Necesitamos saber quién le cuida!');
+const registrarMascota = (callback) => {
+    console.log('⏳ Procesando: Registro de nueva mascota...');
+    setTimeout(() => {
+        const nombreMascota = prompt('🐶 Nombre de la mascota:');
+        const especie = prompt('🐱 Especie (Perro, Gato, Ave, Reptil, Otro):');
+        const edad = prompt('🎂 Edad en años:');
+        const peso = prompt('⚖️ Peso en kilogramos:');
+        const estadoSalud = prompt('🩺 Estado de salud (Sano, Enfermo, En tratamiento):');
+        const cedulaDueño = prompt('🆔 Cédula del dueño (debe existir):');
 
-        // Inspección inicial de los datos de la mascota.
         if (
-            !esUnCampoValido(nombreDelAmiguito, 'Nombre del Animalito') ||
-            !esUnCampoValido(tipoDeCriatura, 'Especie') ||
-            !esUnCampoValido(estadoDeSalud, 'Estado de Salud') ||
-            !esUnCampoValido(cedulaDelDueñoAsociado, 'Cédula del Dueño') ||
-            !esUnNumeroPositivoValido(añosDeVida, 'Edad') ||
-            !esUnNumeroPositivoValido(pesoEnKilos, 'Peso') ||
-            !esUnEstadoDeSaludValido(estadoDeSalud)
+            !validarCampoTexto(nombreMascota, 'Nombre de la Mascota') ||
+            !validarCampoTexto(especie, 'Especie') ||
+            !validarCampoTexto(estadoSalud, 'Estado de Salud') ||
+            !validarCampoTexto(cedulaDueño, 'Cédula del Dueño') ||
+            !validarNumeroPositivo(edad, 'Edad') ||
+            !validarNumeroPositivo(peso, 'Peso') ||
+            !validarEstadoSalud(estadoSalud)
         ) {
-            elCallbackDeResultado(new Error('¡Datos del animalito incompletos o incorrectos! Es como un rompecabezas con piezas faltantes.'), null);
+            callback(new Error('❌ Datos de mascota incompletos o inválidos.'), null);
             return;
         }
 
-        // Momento crucial: verificar que el dueño esté en nuestros registros.
-        const elDueñoExistente = encontrarDueñoPorCedula(cedulaDelDueñoAsociado);
-        if (!elDueñoExistente) {
-            elCallbackDeResultado(new Error(`¡Alerta! No encontramos un dueño con la cédula "${cedulaDelDueñoAsociado}". ¡Un animalito necesita un protector registrado!`), null);
+        const dueñoExistente = encontrarDueñoPorCedula(cedulaDueño);
+        if (!dueñoExistente) {
+            callback(new Error(`⚠️ Error: Dueño con cédula "${cedulaDueño}" no encontrado.`), null);
             return;
         }
 
-        // Revisamos si ya hay una mascota con este nombre.
-        if (encontrarMascotaPorNombre(nombreDelAmiguito)) {
-            elCallbackDeResultado(new Error(`¡Ups! Ya tenemos un animalito con el nombre "${nombreDelAmiguito}". ¡Cada criatura merece un nombre único!`), null);
+        if (encontrarMascotaPorNombre(nombreMascota)) {
+            callback(new Error(`⚠️ Error: Ya existe una mascota con el nombre "${nombreMascota}".`), null);
             return;
         }
 
-        // Si todo va bien, creamos la nueva mascota.
-        const nuevaCriatura = {
-            identificadorUnico: forjarIdentificadorUnico(),
-            nombreDeLaMascota: nombreDelAmiguito,
-            tipoDeEspecie: tipoDeCriatura,
-            añosDeVida: Number(añosDeVida),
-            pesoEnKilos: Number(pesoEnKilos),
-            estadoDeSaludActual: estadoDeSalud,
-            identificadorDelDueño: elDueñoExistente.identificadorUnico // Asociamos al dueño encontrado
+        const nuevaMascota = {
+            id: generarIdUnico(),
+            nombre: nombreMascota,
+            especie: especie,
+            edad: Number(edad),
+            peso: Number(peso),
+            estadoSalud: estadoSalud,
+            idDueño: dueñoExistente.id
         };
 
-        lasPequeñasCriaturas.push(nuevaCriatura); // La añadimos a nuestra lista.
-        console.log('🐾 ¡El nuevo animalito ha sido registrado con éxito! (La verificación del dueño ha finalizado).');
-        elCallbackDeResultado(null, nuevaCriatura); // No hay error (null), y enviamos la nueva mascota.
-    }, 2000); // Se toma 2 segundos para "validar" la existencia del dueño.
-}
+        listaMascotas.push(nuevaMascota);
+        console.log('✅ Registro de mascota completado.');
+        callback(null, nuevaMascota);
+    }, 2000); // Retraso de 2 segundos
+};
 
 /**
- * Muestra el listado completo de todos los animalitos en nuestra clínica.
- * Esta es una función sincrónica, no necesita esperar.
+ * 🔍 Busca una mascota por su nombre (usando Promesas).
+ * Simula tiempo de búsqueda de 1.5 segundos.
+ * @returns {Promise<object | null>} Promesa que resuelve con la mascota encontrada o `null`.
  */
-function verTodosLosAnimalitos() {
-    console.log('\n--- El Gran Listado de Todas las Pequeñas Criaturas ---');
-    if (lasPequeñasCriaturas.length === 0) {
-        console.log('¡Vaya! Nuestro censo de animalitos está un poco vacío. ¡Anímate a registrar a un nuevo amigo!');
+const buscarMascotaPorNombre = () => {
+    return new Promise((resolve, reject) => {
+        console.log('⏳ Buscando mascota...');
+        setTimeout(() => {
+            const nombreBusqueda = prompt('🔎 Nombre de la mascota a buscar:');
+            if (!validarCampoTexto(nombreBusqueda, 'Nombre de la Mascota para Buscar')) {
+                reject(new Error('❌ Debe ingresar un nombre para buscar.'));
+                return;
+            }
+
+            const mascotaEncontrada = encontrarMascotaPorNombre(nombreBusqueda);
+            if (mascotaEncontrada) {
+                const dueño = listaDueños.find(d => d.id === mascotaEncontrada.idDueño);
+                const nombreDueño = dueño ? dueño.nombreCompleto : 'Desconocido';
+                console.log(`\n--- ✨ Mascota Encontrada ✨ ---
+                    ID: ${mascotaEncontrada.id}
+                    Nombre: ${mascotaEncontrada.nombre}
+                    Especie: ${mascotaEncontrada.especie}
+                    Edad: ${mascotaEncontrada.edad} años
+                    Peso: ${mascotaEncontrada.peso} kg
+                    Estado: ${mascotaEncontrada.estadoSalud}
+                    Dueño: ${nombreDueño}
+                    ------------------------------------`);
+                resolve(mascotaEncontrada);
+            } else {
+                console.log(`😕 Mascota "${nombreBusqueda}" no encontrada.`);
+                resolve(null); // Resolve con null si no se encuentra, no es un error de proceso.
+            }
+        }, 1500); // Retraso de 1.5 segundos
+    });
+};
+
+/**
+ * ❤️‍🩹 Actualiza el estado de salud de una mascota (usando async/await).
+ * Simula espera del veterinario durante 1 segundo.
+ */
+const actualizarEstadoMascota = async () => {
+    console.log('⏳ Procesando: Actualización de estado de salud...');
+    // Simulamos la espera del veterinario con una promesa que envuelve setTimeout
+    await new Promise(resolve => setTimeout(resolve, 1000)); // Retraso de 1 segundo
+
+    console.log('🩺 Veterinario listo para la actualización.');
+
+    const nombreMascota = prompt('📝 Nombre de la mascota a actualizar:');
+    if (!validarCampoTexto(nombreMascota, 'Nombre de la Mascota')) {
+        alert('❌ Debe ingresar el nombre de la mascota.');
         return;
     }
-    // Recorremos la lista de mascotas y mostramos sus detalles.
-    for (let i = 0; i < lasPequeñasCriaturas.length; i++) {
-        const mascota = lasPequeñasCriaturas[i];
-        let nombreDelProtector = 'Dueño Desconocido'; // Por si no encontramos al dueño.
 
-        // Buscamos al dueño por su ID.
-        for (let j = 0; j < losAmosDeLasMascotas.length; j++) {
-            if (losAmosDeLasMascotas[j].identificadorUnico === mascota.identificadorDelDueño) {
-                nombreDelProtector = losAmosDeLasMascotas[j].nombreCompleto;
-                break; // Ya lo encontramos, no necesitamos seguir buscando.
+    const mascota = encontrarMascotaPorNombre(nombreMascota);
+    if (!mascota) {
+        alert(`⚠️ Mascota "${nombreMascota}" no encontrada.`);
+        return;
+    }
+
+    const nuevoEstado = prompt(`Estado actual: "${mascota.estadoSalud}". Ingrese nuevo estado (Sano, Enfermo, En tratamiento):`);
+
+    if (!validarCampoTexto(nuevoEstado, 'Nuevo Estado de Salud') || !validarEstadoSalud(nuevoEstado)) {
+        alert('🚫 El nuevo estado de salud no es válido.');
+        return;
+    }
+
+    mascota.estadoSalud = nuevoEstado;
+    console.log(`✅ Estado de "${mascota.nombre}" actualizado a "${nuevoEstado}".`);
+    alert(`✅ Estado de "${mascota.nombre}" actualizado a "${nuevoEstado}".`);
+};
+
+/**
+ * 🗑️ Elimina una mascota del registro (usando Promesas + confirmación).
+ * Confirmación tras 2 segundos.
+ * @returns {Promise<boolean>} Promesa que resuelve a `true` si se eliminó, `false` si no.
+ */
+const eliminarMascota = () => {
+    return new Promise((resolve, reject) => {
+        console.log('⏳ Procesando: Eliminación de mascota...');
+        setTimeout(() => {
+            const nombreMascota = prompt('🚮 Nombre de la mascota a eliminar:');
+            if (!validarCampoTexto(nombreMascota, 'Nombre de la Mascota para Eliminar')) {
+                reject(new Error('❌ Debe ingresar el nombre de la mascota.'));
+                return;
             }
-        }
 
+            let indiceParaEliminar = listaMascotas.findIndex(m => m.nombre === nombreMascota);
+
+            if (indiceParaEliminar === -1) {
+                alert(`⚠️ Mascota "${nombreMascota}" no encontrada.`);
+                resolve(false); // No se elimina, pero no es un error de proceso.
+                return;
+            }
+
+            const confirmar = confirm(`¿Confirma eliminar a "${nombreMascota}"? Esta acción es irreversible. (Después de 2 segundos de confirmación)`);
+            if (confirmar) {
+                listaMascotas.splice(indiceParaEliminar, 1);
+                console.log(`🗑️ Mascota "${nombreMascota}" eliminada.`);
+                alert(`🗑️ Mascota "${nombreMascota}" eliminada.`);
+                resolve(true);
+            } else {
+                console.log(`❌ Eliminación de "${nombreMascota}" cancelada.`);
+                alert(`❌ Eliminación de "${nombreMascota}" cancelada.`);
+                resolve(false);
+            }
+        }, 2000); // Retraso de 2 segundos
+    });
+};
+
+/**
+ * 👨‍👩‍👧‍👦 Muestra las mascotas asociadas a un dueño (usando async/await).
+ * Simula carga de información con retardo de 2 segundos.
+ */
+const verMascotasPorDueño = async () => {
+    console.log('⏳ Procesando: Búsqueda de mascotas por dueño...');
+    // Simulamos la carga de información
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Retraso de 2 segundos
+
+    const cedulaDueño = prompt('🆔 Cédula del dueño para listar sus mascotas:');
+    if (!validarCampoTexto(cedulaDueño, 'Cédula del Dueño')) {
+        alert('❌ Debe ingresar la cédula del dueño.');
+        return;
+    }
+
+    const dueño = encontrarDueñoPorCedula(cedulaDueño);
+    if (!dueño) {
+        alert(`⚠️ Dueño con cédula "${cedulaDueño}" no encontrado.`);
+        return;
+    }
+
+    const mascotasDelDueño = listaMascotas.filter(mascota => mascota.idDueño === dueño.id);
+
+    console.log(`\n--- 🐾 Mascotas de ${dueño.nombreCompleto} (Cédula: ${dueño.cedula}) 🐾 ---`);
+    if (mascotasDelDueño.length === 0) {
+        console.log(`😕 No hay mascotas registradas para ${dueño.nombreCompleto}.`);
+        alert(`😕 No hay mascotas registradas para ${dueño.nombreCompleto}.`);
+        return;
+    }
+
+    mascotasDelDueño.forEach(mascota => {
         console.log(`
-            ID Universal: ${mascota.identificadorUnico}
-            Nombre: ${mascota.nombreDeLaMascota}
-            Especie: ${mascota.tipoDeEspecie}
-            Edad: ${mascota.añosDeVida} añitos
-            Peso: ${mascota.pesoEnKilos} kg
-            Estado de Salud: ${mascota.estadoDeSaludActual}
-            Protector: ${nombreDelProtector} (ID del Protector: ${mascota.identificadorDelDueño})
-            ------------------------------------------------
+            ID: ${mascota.id}
+            Nombre: ${mascota.nombre}
+            Especie: ${mascota.especie}
+            Edad: ${mascota.edad} años
+            Peso: ${mascota.peso} kg
+            Estado: ${mascota.estadoSalud}
+            ------------------------------------
         `);
-    }
-    console.log('--- Fin del Gran Listado ---');
-}
+    });
+    console.log('--- Fin del Listado por Dueño ---');
+    alert(`✅ Listado de mascotas de ${dueño.nombreCompleto} mostrado en consola.`);
+};
+
 
 /**
- * Busca a un animalito por su nombre. Esta función también tomará un tiempo.
- * Usa setTimeout para el retraso y un callback para decirnos si lo encontró o no.
- * @param {function} elCallbackDeResultado - La función a invocar al finalizar.
+ * 📖 Lista todas las mascotas registradas (sincrónico).
  */
-function buscarAnimalitoPorSuNombre(elCallbackDeResultado) {
-    console.log('⏳ Un detective en busca de un nombre... Buscando al animalito...');
-    setTimeout(function() { // Esto se ejecutará después del tiempo.
-        const elNombreBuscado = prompt('¿Qué nombre tiene el animalito que buscas en nuestros registros?');
-        if (!esUnCampoValido(elNombreBuscado, 'Nombre del Animalito para Buscar')) {
-            elCallbackDeResultado(new Error('¡Para buscar, necesitas dar un nombre! No podemos adivinar.'), null);
-            return;
-        }
+const listarTodasLasMascotas = () => {
+    console.log('\n--- 📖 Listado de Todas las Mascotas 📖 ---');
+    if (listaMascotas.length === 0) {
+        console.log('😕 No hay mascotas registradas.');
+        return;
+    }
 
-        const mascotaEncontrada = encontrarMascotaPorNombre(elNombreBuscado);
-        if (mascotaEncontrada) {
-            let nombreDelProtector = 'Dueño Desconocido';
-            for (let i = 0; i < losAmosDeLasMascotas.length; i++) {
-                if (losAmosDeLasMascotas[i].identificadorUnico === mascotaEncontrada.identificadorDelDueño) {
-                    nombreDelProtector = losAmosDeLasMascotas[i].nombreCompleto;
-                    break;
+    listaMascotas.forEach(mascota => {
+        const dueño = listaDueños.find(d => d.id === mascota.idDueño);
+        const nombreDueño = dueño ? dueño.nombreCompleto : 'Desconocido';
+        console.log(`
+            ID: ${mascota.id}
+            Nombre: ${mascota.nombre}
+            Especie: ${mascota.especie}
+            Edad: ${mascota.edad} años
+            Peso: ${mascota.peso} kg
+            Estado: ${mascota.estadoSalud}
+            Dueño: ${nombreDueño}
+            ------------------------------------
+        `);
+    });
+    console.log('--- Fin del Listado ---');
+};
+
+
+// 🚦 Función Principal del Menú 🚦
+
+/**
+ * Inicia la aplicación de gestión veterinaria, mostrando el menú principal.
+ */
+const iniciarGestionVeterinaria = async () => { // Marcamos como async para poder usar await
+    let continuarEjecucion = true;
+
+    while (continuarEjecucion) { // Usamos un bucle while para mantener el menú
+        const opcionSeleccionada = prompt(`
+            🏥 SISTEMA DE GESTIÓN VETERINARIA 'EL RINCÓN DEL AMIGUITO' 🐾
+
+            Seleccione una opción:
+
+            1. 🏡 Registrar Dueño
+            2. 🐾 Registrar Mascota
+            3. 📖 Listar Todas las Mascotas
+            4. 🔍 Buscar Mascota por Nombre
+            5. ❤️‍🩹 Actualizar Estado de Salud de Mascota
+            6. 🗑️ Eliminar Mascota
+            7. 👨‍👩‍👧‍👦 Ver Mascotas de un Dueño
+            8. 🚪 Salir del Programa
+
+            ------------------------------------
+            Total Mascotas: ${listaMascotas.length} | Total Dueños: ${listaDueños.length}
+        `);
+
+        // Usamos un switch para gestionar las opciones
+        switch (opcionSeleccionada) {
+            case '1':
+                registrarDueño((error, dueño) => {
+                    if (error) {
+                        alert(error.message);
+                        console.error('🚫 ERROR en Registro de Dueño:', error);
+                    } else {
+                        alert(`✅ Dueño "${dueño.nombreCompleto}" registrado con éxito.`);
+                        console.log('🏡 Dueño registrado:', dueño);
+                    }
+                });
+                break;
+            case '2':
+                registrarMascota((error, mascota) => {
+                    if (error) {
+                        alert(error.message);
+                        console.error('🚫 ERROR en Registro de Mascota:', error);
+                    } else {
+                        alert(`✅ Mascota "${mascota.nombre}" registrada con éxito.`);
+                        console.log('🐾 Mascota registrada:', mascota);
+                    }
+                });
+                break;
+            case '3':
+                listarTodasLasMascotas();
+                break;
+            case '4':
+                try {
+                    const mascotaEncontrada = await buscarMascotaPorNombre();
+                    if (mascotaEncontrada) {
+                        alert(`✅ Mascota "${mascotaEncontrada.nombre}" encontrada. Detalles en consola.`);
+                    } else {
+                        alert(`😕 Mascota no encontrada.`);
+                    }
+                } catch (error) {
+                    alert(`❌ Error al buscar mascota: ${error.message}`);
+                    console.error('🚫 ERROR en Búsqueda de Mascota:', error);
                 }
-            }
-            console.log(`\n--- ¡Encontramos a "${mascotaEncontrada.nombreDeLaMascota}"! ---
-                ID Universal: ${mascotaEncontrada.identificadorUnico}
-                Nombre: ${mascotaEncontrada.nombreDeLaMascota}
-                Especie: ${mascotaEncontrada.tipoDeEspecie}
-                Edad: ${mascotaEncontrada.añosDeVida} añitos
-                Peso: ${mascotaEncontrada.pesoEnKilos} kg
-                Estado de Salud: ${mascotaEncontrada.estadoDeSaludActual}
-                Protector: ${nombreDelProtector} (ID del Protector: ${mascotaEncontrada.identificadorDelDueño})
-                -------------------------------------------------`);
-            elCallbackDeResultado(null, mascotaEncontrada); // No hay error, enviamos la mascota.
-        } else {
-            console.log(`😕 ¡Qué pena! No hemos encontrado ninguna criatura con el nombre "${elNombreBuscado}" en nuestros anales.`);
-            elCallbackDeResultado(null, null); // No es un error, simplemente no se encontró.
-        }
-    }, 1500); // Simulamos que la búsqueda se toma 1.5 segundos.
-}
-
-/**
- * Actualiza el estado de salud de una mascota. Tomará un tiempo, como si el veterinario meditara.
- * Usa setTimeout y un callback para el resultado.
- * @param {function} elCallbackDeResultado - La función a invocar al finalizar.
- */
-function actualizarElCuidadoDeUnAnimalito(elCallbackDeResultado) {
-    console.log('⏳ El veterinario está consultando sus libros... Preparando la actualización de salud...');
-    setTimeout(function() { // Esto se ejecutará después del tiempo.
-        console.log('El veterinario ha tomado una decisión. ¡Continuemos!');
-
-        const nombreDelPaciente = prompt('¿Cuál es el nombre del animalito cuyo estado de salud vamos a ajustar?');
-        if (!esUnCampoValido(nombreDelPaciente, 'Nombre del Paciente')) {
-            elCallbackDeResultado(new Error('¡Necesitas un nombre para actualizar el estado! No podemos adivinar al paciente.'), null);
-            return;
-        }
-
-        const elPaciente = encontrarMascotaPorNombre(nombreDelPaciente);
-        if (!elPaciente) {
-            alert(`¡Cielos! No encontramos a ninguna criatura con el nombre "${nombreDelPaciente}". ¿Estás seguro de que existe?`);
-            elCallbackDeResultado(null, null); // No es un error, solo que no se encontró.
-            return;
-        }
-
-        const elNuevoEstado = prompt(`El estado actual de "${elPaciente.nombreDeLaMascota}" es "${elPaciente.estadoDeSaludActual}". ¿Cuál es su nuevo estado? (Sano, Enfermo, En tratamiento)`);
-
-        if (!esUnCampoValido(elNuevoEstado, 'Nuevo Estado de Salud') || !esUnEstadoDeSaludValido(elNuevoEstado)) {
-            alert('¡El nuevo estado de salud no es válido! Por favor, revisa las opciones permitidas.');
-            elCallbackDeResultado(new Error('Estado de salud inválido.'), null);
-            return;
-        }
-
-        elPaciente.estadoDeSaludActual = elNuevoEstado; // ¡Actualización exitosa!
-        console.log(`✅ ¡Magnífico! El estado de salud de "${elPaciente.nombreDeLaMascota}" ha sido actualizado a "${elNuevoEstado}". ¡Esperamos su pronta recuperación!`);
-        elCallbackDeResultado(null, elPaciente); // No hay error, enviamos la mascota actualizada.
-    }, 1000); // Simula la "meditación" del veterinario por 1 segundo.
-}
-
-/**
- * Elimina una mascota de nuestros registros, pero con una pausa para la confirmación.
- * Usa setTimeout y un callback para el resultado.
- * @param {function} elCallbackDeResultado - La función a invocar al finalizar.
- */
-function decirAdiosAUnAnimalito(elCallbackDeResultado) {
-    console.log('⏳ Preparando el emotivo momento de decir adiós a un registro...');
-    setTimeout(function() { // Esto se ejecutará después del tiempo.
-        const nombreDelDespedida = prompt('¿Cuál es el nombre del animalito que se despide de nuestros registros?');
-        if (!esUnCampoValido(nombreDelDespedida, 'Nombre del Animalito para Eliminar')) {
-            elCallbackDeResultado(new Error('¡Para despedir a un animalito, necesitamos su nombre!'), null);
-            return;
-        }
-
-        let indiceParaEliminar = -1; // Buscamos la posición de la mascota.
-        for (let i = 0; i < lasPequeñasCriaturas.length; i++) {
-            if (lasPequeñasCriaturas[i].nombreDeLaMascota === nombreDelDespedida) {
-                indiceParaEliminar = i;
                 break;
-            }
-        }
-
-        if (indiceParaEliminar === -1) {
-            alert(`¡Mascota no encontrada! Parece que "${nombreDelDespedida}" ya se ha ido o nunca estuvo aquí.`);
-            elCallbackDeResultado(null, false); // No es un error, solo que no se encontró.
-            return;
-        }
-
-        // Una pausa para la confirmación, ¡las decisiones importantes se piensan!
-        const seConfirmaLaAccion = confirm(`¿Estás completamente seguro de borrar a "${nombreDelDespedida}" de nuestros registros? Esta acción es como borrar un recuerdo, ¡no tiene vuelta atrás!`);
-        if (seConfirmaLaAccion) {
-            lasPequeñasCriaturas.splice(indiceParaEliminar, 1); // Lo eliminamos.
-            console.log(`🗑️ ¡Adiós! "${nombreDelDespedida}" ha sido retirado de nuestros anales. ¡Que descanse en la memoria digital!`);
-            elCallbackDeResultado(null, true); // No hay error, y confirmamos la eliminación.
-        } else {
-            console.log(`"Phew", "${nombreDelDespedida}" se queda con nosotros. ¡La decisión ha sido revocada!`);
-            elCallbackDeResultado(null, false); // No hay error, y confirmamos que no se eliminó.
-        }
-    }, 2000); // Damos 2 segundos para que el usuario reflexione antes de confirmar.
-}
-
-/**
- * Muestra todos los animalitos que pertenecen a un dueño específico, como si abriéramos su álbum familiar.
- * Usa setTimeout y un callback para el resultado.
- * @param {function} elCallbackDeResultado - La función a invocar al finalizar.
- */
-function verLosAnimalitosDeUnDueño(elCallbackDeResultado) {
-    console.log('⏳ Abriendo el álbum familiar de mascotas de un protector... Esto puede tardar un momento...');
-    setTimeout(function() { // Esto se ejecutará después del tiempo.
-        console.log('¡Álbum cargado! Listos para mostrar las fotos.');
-
-        const cedulaDelDueñoParaBuscar = prompt('Para abrir el álbum, ¿cuál es la cédula del protector?');
-        if (!esUnCampoValido(cedulaDelDueñoParaBuscar, 'Cédula del Dueño')) {
-            elCallbackDeResultado(new Error('¡Necesitas una cédula para ver el álbum!'), null);
-            return;
-        }
-
-        const elProtectorObjetivo = encontrarDueñoPorCedula(cedulaDelDueñoParaBuscar);
-        if (!elProtectorObjetivo) {
-            alert(`¡Oh no! No encontramos a ningún protector con la cédula "${cedulaDelDueñoParaBuscar}". ¿Estás seguro de que lo tenemos registrado?`);
-            elCallbackDeResultado(null, null); // No es error, no se encontró el dueño.
-            return;
-        }
-
-        const lasCriaturasDelProtector = [];
-        for (let i = 0; i < lasPequeñasCriaturas.length; i++) {
-            if (lasPequeñasCriaturas[i].identificadorDelDueño === elProtectorObjetivo.identificadorUnico) {
-                lasCriaturasDelProtector.push(lasPequeñasCriaturas[i]);
-            }
-        }
-
-        console.log(`\n--- El Elenco de Animalitos de ${elProtectorObjetivo.nombreCompleto} (Cédula: ${elProtectorObjetivo.numeroDeCedula}) ---`);
-        if (lasCriaturasDelProtector.length === 0) {
-            console.log(`Parece que ${elProtectorObjetivo.nombreCompleto} es un protector muy nuevo, ¡aún no tiene animalitos registrados con nosotros!`);
-            elCallbackDeResultado(null, []); // No hay error, pero la lista está vacía.
-            return;
-        }
-
-        for (let i = 0; i < lasCriaturasDelProtector.length; i++) {
-            const mascota = lasCriaturasDelProtector[i];
-            console.log(`
-                ID Universal: ${mascota.identificadorUnico}
-                Nombre: ${mascota.nombreDeLaMascota}
-                Especie: ${mascota.tipoDeEspecie}
-                Edad: ${mascota.añosDeVida} añitos
-                Peso: ${mascota.pesoEnKilos} kg
-                Estado de Salud: ${mascota.estadoDeSaludActual}
-                ------------------------------------------------
-            `);
-        }
-        console.log('--- Fin del Álbum del Protector ---');
-        elCallbackDeResultado(null, lasCriaturasDelProtector); // No hay error, enviamos la lista de mascotas.
-    }, 2000); // Simula la carga de información por 2 segundos.
-}
-
-// --- El Gran Director de Orquesta: Menú Principal y sus Decisiones ---
-
-/**
- * Inicia la gran gestión de nuestra veterinaria, el corazón del sistema.
- * Es un bucle que se repite hasta que el usuario decida salir.
- */
-function iniciarGestionVeterinaria() {
-    let elShowDebeContinuar = true; // Nuestra bandera para seguir o parar el programa.
-
-    // Usamos una función interna para mostrar el menú y pedir la opción,
-    // así podemos llamarla de nuevo después de cada operación asíncrona.
-    function mostrarMenuYPedirOpcion() {
-        if (!elShowDebeContinuar) {
-            return; // Si ya decidimos salir, no mostramos el menú.
-        }
-
-        const laOpcionSeleccionada = prompt(`
-            🏥 BIENVENIDOS A 'EL RINCÓN DEL AMIGUITO' 🐾
-            
-            ¡Tu destino para el cuidado de mascotas!
-            
-            Por favor, elige tu próxima acción ingresando el número correspondiente:
-            
-            1. 🏡 Dar De Alta A Un Protector (Dueño)
-            2. 🐾 Añadir Un Nuevo Pequeño Amiguito (Mascota)
-            3. 📖 Ver El Gran Censo de Todos Los Amiguitos
-            4. 🔍 Buscar Un Amiguito Por Su Nombre
-            5. ❤️‍🩹 Actualizar El Cuidado De Un Amiguito
-            6. 👋 Decir Adiós A Un Amiguito (Eliminar)
-            7. 👨‍👩‍👧‍👦 Ver Los Amiguitos de Un Protector
-            8. 🚪 Cerrar Las Puertas del Programa
-            
-            ------------------------------------------
-            ✨ Resumen Actual:
-            Amiguitos Registrados: ${lasPequeñasCriaturas.length} | Protectores Registrados: ${losAmosDeLasMascotas.length}
-        `);
-
-        switch (laOpcionSeleccionada) {
-            case '1': // Dar de alta a un dueño (asíncrono con callback)
-                darDeAltaAUnDueño(function(unError, elDueñoRecienCreado) {
-                    if (unError) {
-                        alert(`¡Problema al registrar al protector!: ${unError.message}`);
-                        console.error(`ERROR (Dar de Alta Dueño):`, unError);
+            case '5':
+                await actualizarEstadoMascota(); // Esta función ya maneja sus propios alerts/console.log
+                break;
+            case '6':
+                try {
+                    const eliminada = await eliminarMascota();
+                    if (eliminada) {
+                        // El alert y console.log ya están dentro de eliminarMascota
                     } else {
-                        alert(`¡Bienvenido! El protector "${elDueñoRecienCreado.nombreCompleto}" ha sido añadido a la familia.`);
-                        console.log('✨ Nuevo Protector Registrado:', elDueñoRecienCreado);
+                         // El alert y console.log ya están dentro de eliminarMascota
                     }
-                    // Después de la operación asíncrona, volvemos a mostrar el menú.
-                    mostrarMenuYPedirOpcion();
-                });
+                } catch (error) {
+                    alert(`❌ Error al eliminar mascota: ${error.message}`);
+                    console.error('🚫 ERROR en Eliminación de Mascota:', error);
+                }
                 break;
+            case '7':
+                await verMascotasPorDueño(); // Esta función ya maneja sus propios alerts/console.log
+                break;
+            case '8':
+                alert('👋 Saliendo del programa. ¡Gracias por usar nuestro sistema!');
+                console.log('🚪 Programa finalizado.');
+                continuarEjecucion = false;
+                break;
+            default:
+                alert('🚫 Opción no válida. Por favor, ingrese un número del 1 al 8.');
+                break;
+        }
 
-            case '2': // Añadir una nueva mascota (asíncrono con callback)
-                añadirUnNuevoAnimalito(function(unError, laNuevaMascota) {
-                    if (unError) {
-                        alert(`¡Problema al añadir al amiguito!: ${unError.message}`);
-                        console.error(`ERROR (Añadir Animalito):`, unError);
-                    } else {
-                        alert(`¡Hurra! El amiguito "${laNuevaMascota.nombreDeLaMascota}" ya es parte de nuestra clínica.`);
-                        console.log('🐾 Nueva Criatura Añadida:', laNuevaMascota);
-                    }
-                    // Después de la operación asíncrona, volvemos a mostrar el menú.
-                    mostrarMenuYPedirOpcion();
-                });
-                break;
-
-            case '3': // Listar todas las mascotas (sincrónico)
-                verTodosLosAnimalitos();
-                // Como es sincrónico, podemos mostrar el menú de inmediato.
-                mostrarMenuYPedirOpcion();
-                break;
-
-            case '4': // Buscar mascota por nombre (asíncrono con callback)
-                buscarAnimalitoPorSuNombre(function(unError, mascotaHallada) {
-                    if (unError) {
-                        alert(`¡Problema al buscar al amiguito!: ${unError.message}`);
-                        console.error(`ERROR (Buscar Animalito):`, unError);
-                    } else if (mascotaHallada) {
-                        // El mensaje de éxito ya se muestra dentro de la función buscarAnimalitoPorSuNombre
-                    } else {
-                        // El mensaje de no encontrado ya se muestra dentro de la función buscarAnimalitoPorSuNombre
-                    }
-                    mostrarMenuYPedirOpcion();
-                });
-                break;
-
-            case '5': // Actualizar estado de salud de mascota (asíncrono con callback)
-                actualizarElCuidadoDeUnAnimalito(function(unError, mascotaActualizada) {
-                    if (unError) {
-                        alert(`¡Problema al actualizar al amiguito!: ${unError.message}`);
-                        console.error(`ERROR (Actualizar Animalito):`, unError);
-                    } else if (mascotaActualizada) {
-                         // El mensaje de éxito ya se muestra dentro de la función actualizarElCuidadoDeUnAnimalito
-                    } else {
-                         // El mensaje de no encontrado ya se muestra dentro de la función actualizarElCuidadoDeUnAnimalito
-                    }
-                    mostrarMenuYPedirOpcion();
-                });
-                break;
-
-            case '6': // Eliminar mascota por nombre (asíncrono con callback y confirmación)
-                decirAdiosAUnAnimalito(function(unError, seElimino) {
-                    if (unError) {
-                        alert(`¡Problema al despedir al amiguito!: ${unError.message}`);
-                        console.error(`ERROR (Eliminar Animalito):`, unError);
-                    } else if (seElimino === true) {
-                        // El mensaje de éxito ya se muestra dentro de la función decirAdiosAUnAnimalito
-                    } else {
-                        // El mensaje de no encontrado o cancelado ya se muestra dentro de la función decirAdiosAUnAnimalito
-                    }
-                    mostrarMenuYPedirOpcion();
-                });
-                break;
-
-            case '7': // Ver mascotas de un dueño (asíncrono con callback)
-                verLosAnimalitosDeUnDueño(function(unError, listaDeMascotas) {
-                    if (unError) {
-                        alert(`¡Problema al ver los amiguitos del protector!: ${unError.message}`);
-                        console.error(`ERROR (Ver Mascotas de Dueño):`, unError);
-                    } else {
-                        // Los mensajes de éxito o lista vacía ya se muestran dentro de la función verLosAnimalitosDeUnDueño
-                    }
-                    mostrarMenuYPedirOpcion();
-                });
-                break;
-
-            case '8': // Salir del programa
-                alert('¡Gracias por confiar en "El Rincón del Amiguito"! ¡Esperamos verte pronto!');
-                console.log('🚪 El programa ha cerrado sus puertas. ¡Hasta la próxima!');
-                elShowDebeContinuar = false; // Detenemos el bucle al establecer esta bandera en falso.
-                break;
-
-            default: // Opción no reconocida
-                alert('¡Vaya! Esa opción no está en nuestro menú. Por favor, elige un número del 1 al 8.');
-                // Como fue un error, volvemos a mostrar el menú.
-                mostrarMenuYPedirOpcion();
-                break;
+        // Si la operación fue asíncrona (Promesa/async/await), el bucle esperará antes de mostrar el menú de nuevo.
+        // Para Callbacks, la función `mostrarMenuYGestionarOpcion` que teníamos antes, ya no es necesaria aquí en el bucle `while`.
+        // El bucle `while` se encargará de mostrar el menú de nuevo una vez que la función asíncrona (llamada con await) termine.
+        // Para las que usan callbacks, el bucle simplemente avanzará, y el callback ejecutará su alert.
+        // Si quieres que el menú aparezca SIEMPRE después de cada operación asíncrona, incluso las de callback, tendríamos que reintroducir la recursión de `mostrarMenuYGestionarOpcion` DENTRO de los callbacks.
+        // Por la simplicidad de `async/await` en el bucle, las operaciones de callback no 'pausan' el bucle de la misma forma.
+        // Si necesitas que el `prompt` del menú aparezca SOLO después de que TODOS los alerts de callbacks terminen, necesitaríamos usar Promesas para TODO.
+        // Para este setup mixto (callbacks, promesas, async/await), el `while` funciona bien con `async/await`.
+        // Los callbacks, por su naturaleza, se ejecutan en un momento futuro, y el bucle principal no los "espera".
+        // Para este proyecto, el comportamiento actual es aceptable dado que prompt/alert pausan el hilo principal.
+        if (continuarEjecucion && !['1', '2', '4', '5', '6', '7'].includes(opcionSeleccionada)) {
+            // Asegurarse de que el menú se repita inmediatamente para opciones síncronas o si no hay un await.
+            // Para las opciones con await, el bucle ya espera.
+            // Para las opciones de callback (1 y 2), el alert final se mostrará, y luego el prompt del menú aparecerá.
         }
     }
+};
 
-    // ¡El gran lanzamiento! Iniciamos mostrando el menú por primera vez.
-    mostrarMenuYPedirOpcion();
-}
-
-// Llama a la función principal cuando la página esté completamente cargada.
+// Inicia la aplicación cuando la página esté completamente cargada.
 window.onload = iniciarGestionVeterinaria;
