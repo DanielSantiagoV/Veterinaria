@@ -8,154 +8,311 @@
 
 ## 📝 Descripción del Proyecto
 
-'El Rincón del Amiguito' es una aplicación web móvil que simula el flujo completo del usuario, desde el login hasta el historial de vuelos, pasando por el check-in, reserva, menú y pase de abordar, desarrollado como parte de un reto de desarrollo front-end, replicando el diseño proporcionado por un equipo UI/UX de una aerolínea ficticia. Este proyecto, sin embargo, ha sido adaptado para ser un sistema de gestión de veterinaria enfocado en simular un flujo de trabajo asíncrono para el registro, consulta, actualización y eliminación de información de dueños y mascotas, demostrando la implementación de funcionalidades CRUD utilizando Callbacks y `setTimeout` para emular operaciones que tomarían tiempo en un entorno real.
+'El Rincón del Amiguito' es un **sistema de gestión veterinaria completo** que combina una **interfaz web moderna** con funcionalidades de **consola avanzada**. El proyecto demuestra la implementación de operaciones CRUD (Crear, Leer, Actualizar, Eliminar) utilizando **JavaScript moderno** con **callbacks**, **promesas** y **async/await**, simulando operaciones asíncronas reales.
+
+### 🌟 **NUEVO: Interfaz Web Completa**
+- **Diseño responsive** y moderno con CSS avanzado
+- **Modales interactivos** para todas las operaciones
+- **Dashboard en tiempo real** con contadores y estadísticas
+- **Validación de formularios** en tiempo real
+- **Sistema de alertas** elegante y funcional
+- **Navegación fluida** entre secciones
+
+### 💻 **Funcionalidades de Consola**
+- **Sistema de comandos** interactivo
+- **Operaciones asíncronas** simuladas
+- **Validaciones robustas** de datos
+- **Gestión completa** de dueños y mascotas
 
 ---
 
-##  🚀 Asincronía en "El Rincón del Amiguito": ¿Cómo lo Logramos?
-👋
+## 🚀 Características Principales
 
-El tema de la asincronía en nuestro proyecto de la veterinaria es clave. Es como cuando estás haciendo mil cosas a la vez en la vida real. Imagina que le pides a alguien que te prepare un café ☕ mientras tú estás liado con los emails 📧. No te quedas ahí mirando cómo hacen el café, ¿verdad? Sigues con lo tuyo, y cuando el café está listo, ¡te avisan! 🔔
+### 🎨 **Interfaz Web Moderna**
+- ✅ **Diseño responsive** que se adapta a cualquier dispositivo
+- ✅ **Paleta de colores** profesional y accesible
+- ✅ **Animaciones suaves** y transiciones elegantes
+- ✅ **Modales interactivos** para todas las operaciones
+- ✅ **Sistema de alertas** en tiempo real
+- ✅ **Dashboard con estadísticas** en vivo
+- ✅ **Tablas dinámicas** para visualizar datos
+- ✅ **Formularios validados** con feedback inmediato
 
-Pues en el código, hicimos exactamente eso para que el programa no se quede "congelado" esperando algo que tarda (como una consulta a una base de datos real o una validación externa que lleva su tiempo). Para lograrlo, usamos tres trucos de JavaScript:
+### 🔧 **Funcionalidades Técnicas**
+- ✅ **Operaciones CRUD completas** para dueños y mascotas
+- ✅ **Validación de datos** robusta y en tiempo real
+- ✅ **Simulación de asincronía** con callbacks y promesas
+- ✅ **Gestión de estado** dinámica
+- ✅ **Sistema de navegación** fluido
+- ✅ **Consola integrada** para operaciones avanzadas
 
-1. "Te aviso cuando acabe" (Callbacks) 📞
-¿Dónde lo ves? Principalmente en el registro de dueños (registrarDueño) y el registro de mascotas (registrarMascota).
-¿Cómo funciona? Es como decirle al sistema: "Oye, voy a registrar esta información. Cuando termines y tengas el resultado (o si algo salió mal), ¡avísame usando esta función que te dejo aquí!". Esa función que pasamos es el "callback".
-El truco del retraso: Para simular que esto lleva tiempo, usamos un setTimeout. Así, el código no se detiene; el callback simplemente se ejecuta cuando el tiempo se cumple, ¡sin bloquear el show principal!
-2. "Te prometo que te daré una respuesta" (Promesas) 🤝
-¿Dónde lo aplicamos? Lo encontrarás cuando buscas una mascota por nombre (buscarMascotaPorNombre) o cuando vas a eliminar una mascota (eliminarMascota).
-¿Cómo funciona? Aquí somos un poco más "formales". La función misma te da una "promesa" de que va a hacer algo y que, en algún punto, te entregará un resultado: lo que esperabas (si todo va bien, usamos resolve()) o un error (si algo falla, usamos reject(new Error())).
-Esperar la promesa: En el menú principal, al usar await con estas funciones, le decimos al programa: "Aguanta un momento, ¡esta promesa se tiene que cumplir antes de seguir!". Así, el código fluye de una manera más lineal, como si leyeras una historia.
-3. "Espera, que ya llego" (Async/Await) ⏳
-¿Dónde brilla? Lo verás en la actualización del estado de salud de una mascota (actualizarEstadoMascota), al ver las mascotas de un dueño (verMascotasPorDueño), y también en el bucle principal del menú (iniciarGestionVeterinaria).
-¿Cómo funciona? Este es el patrón más moderno y, para muchos, el más fácil de entender.
-Con la palabra async al inicio de una función, le decimos: "¡Atención! Aquí dentro hay operaciones que van a tomar su tiempo".
-Y con await, dentro de esa función async, le indicamos: "¡Pausa aquí! Espera pacientemente a que esta operación (que es una Promesa) termine antes de pasar a la siguiente línea de código".
-La magia: Aunque por debajo sigue siendo asíncrono, para nosotros, al leer el código, ¡parece que se ejecuta paso a paso, de forma totalmente secuencial! Esto hace que el flujo sea súper legible y manejable.
-En resumen, setTimeout fue nuestra herramienta para simular que las cosas no son instantáneas. Y luego, Callbacks, Promesas y Async/Await fueron los distintos métodos que usamos para gestionar y coordinar todas esas operaciones que se ejecutan en segundo plano, ¡sin que el usuario note ningún parón! Cada uno tiene su propio estilo, pero todos buscan lo mismo: una experiencia fluida y sin tropiezos para quien usa la app. ✨
-
-## 📚 Aprendizajes Obtenidos
-
-Durante la creación de esta aplicación, aprendí a:
-
-- Utilizar **HTML semántico** para una estructura clara y accesible.
-- Aplicar **CSS puro y avanzado**, aprovechando animaciones, efectos y variables CSS.
-- Centralizar estilos en un solo archivo optimizando mantenimiento y rendimiento.
-- Diseñar interfaces **responsive**, adaptables a cualquier dispositivo móvil.
-- Simular una navegación funcional entre vistas sin necesidad de JavaScript.
-- Integrar tipografías personalizadas y recursos visuales propios.
-- Implementar operaciones **CRUD (Crear, Leer, Actualizar, Eliminar)** de forma modular.
-- Manejar la **asincronía en JavaScript** utilizando **callbacks** y `setTimeout` para simular retrasos en operaciones (similar a peticiones a una API).
-- Aplicar **validaciones de entrada de datos** robustas para garantizar la integridad de la información.
-- Estructurar el código de manera lógica con funciones auxiliares para reutilización y claridad.
-- Reforzar el uso de estructuras de datos básicas como arreglos para gestionar colecciones de objetos (dueños y mascotas).
-- Simular un entorno interactivo con el usuario a través de `prompt` y `alert`.
+### 📱 **Experiencia de Usuario**
+- ✅ **Interfaz intuitiva** y fácil de usar
+- ✅ **Feedback visual** para todas las acciones
+- ✅ **Navegación por teclado** (Escape para cerrar modales)
+- ✅ **Responsive design** para móviles, tablets y desktop
+- ✅ **Accesibilidad** mejorada
 
 ---
 
-## 💡 Requisitos del Proyecto
+## 🛠️ Tecnologías Utilizadas
 
+### Frontend
+- **HTML5** - Estructura semántica y accesible
+- **CSS3** - Estilos modernos con variables CSS, flexbox y grid
+- **JavaScript ES6+** - Funcionalidad interactiva y lógica de negocio
 
-## 🎯 Tecnologías y Restricciones
-- ✅ Utilizar únicamente **HTML y CSS** (sin frameworks ni JavaScript)
-- ✅ Usar un solo archivo de estilos `style.css` centralizado
-- ✅ **Estructura HTML semántica** y bien organizada
-- ✅ **Sin uso de librerías externas**, desarrollo nativo
-
-## 🌐 Navegación y Vistas
-- ✅ Implementar **9 vistas funcionales** conectadas mediante navegación
-- ✅ **Navegación fluida** entre todas las secciones
-- ✅ **Enlaces internos** para simulación de SPA (Single Page Application)
-- ✅ **Experiencia de usuario** continua y coherente
-
-## 📱 Diseño Responsivo
-- ✅ Aplicar **diseño responsivo** con flexbox y/o CSS Grid
-- ✅ **Diseño mobile-first** moderno y profesional
-- ✅ **100% adaptable** a dispositivos móviles, tablets y desktop
-- ✅ **Breakpoints optimizados** para diferentes resoluciones
-
-
-## 💾 Gestión de Datos (Funcionalidades CRUD)
-- ✅ **Registro de dueños** (operaciones de creación)
-- ✅ **Gestión completa de mascotas** (Crear, Leer, Actualizar, Eliminar)
-- ✅ **Validaciones de datos** para asegurar calidad de información
-- ✅ **Interfaz de menú interactiva** con el usuario
-
-## ⚡ Simulación de Funcionalidades Avanzadas
-- ✅ **Operaciones asíncronas** simuladas con `setTimeout`
-- ✅ Implementación de **callbacks** para manejo de respuestas
-- ✅ **Menús interactivos** mediante `prompt` y `alert`
-- ✅ **Consola del navegador** como salida de información
+### Características Técnicas
+- **Callbacks** - Para operaciones de registro
+- **Promesas** - Para búsquedas y operaciones complejas
+- **Async/Await** - Para operaciones secuenciales
+- **setTimeout** - Simulación de operaciones asíncronas
+- **Local Storage** - Persistencia de datos (opcional)
 
 ---
 
-## 🔧 Tecnologías Utilizadas
-
-- HTML5
-- CSS3 (puro)
-- Git y GitHub para control de versiones y despliegue
-
----
-
-## 🗂️ Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```
-MAQUETACION_DASVP_AIR/
+El-Rincon-del-A miguito/
 │
-├── 📄 JS  # Archivo JS principal
-├── 📄 INDEX.HTML  # Archivo HTML principal
-└── 📄 README.md  # Documentación del proyecto
-
+├── 📄 index.html              # Página principal con interfaz web
+├── 📄 LICENSE                 # Licencia MIT
+├── 📄 README.md               # Documentación del proyecto
+│
+├── 📁 css/
+│   └── 📄 styles.css          # Estilos completos y modernos
+│
+└── 📁 js/
+    ├── 📄 script.js           # Lógica principal y consola
+    └── 📄 web-interface.js    # Funcionalidad de interfaz web
 ```
----
-
-## 👨‍💻 Autor del Proyecto
-
-| Nombre               | Info                                     |
-|----------------------|------------------------------------------|
-| 🧑 Daniel Santiago   | Estudiante de Campuslands |
-| 🎓 Formación         | Desarrollo  |
-| 💻 Enfoque           | HTML, CSS, diseño UI responsivo |
-| 📍 Ubicación         | Piedecuesta, Santander - Colombia  |
 
 ---
 
-## 🧩 FUNCIONALIDADES DESTACADAS
+## 🎯 Funcionalidades Implementadas
 
-# Características del Proyecto
+### 👤 **Gestión de Dueños**
+- ✅ **Registro completo** con validación de datos
+- ✅ **Búsqueda por cédula** con verificación de duplicados
+- ✅ **Datos requeridos**: nombre, cédula, teléfono, email
+- ✅ **Validación en tiempo real** en formularios web
 
-## Gestión de Datos
-- ✅ Gestión de datos de **Dueños** (Crear)
-- ✅ Gestión de datos de **Mascotas** (Crear, Leer, Actualizar, Eliminar)
-- ✅ Simulación de operaciones **asíncronas** con `setTimeout` y **callbacks**
-- ✅ **Validación de datos** de entrada
+### 🐕 **Gestión de Mascotas**
+- ✅ **Registro completo** con vinculación a dueños
+- ✅ **Búsqueda por nombre** con información detallada
+- ✅ **Actualización de estado** de salud
+- ✅ **Eliminación segura** con confirmación
+- ✅ **Datos requeridos**: nombre, especie, edad, peso, estado, dueño
 
-## Interfaz de Usuario
-- ✅ Menú de interacción con el usuario mediante `prompt` y `alert`
-- ✅ Consola del navegador como salida principal de información
-- ✅ **Diseño mobile-first moderno y profesional**
-- ✅ **100% responsive en dispositivos móviles**
+### 🔍 **Sistema de Búsquedas**
+- ✅ **Búsqueda de mascotas** por nombre
+- ✅ **Visualización de mascotas** por dueño
+- ✅ **Listado completo** con opciones de gestión
+- ✅ **Filtros por estado** de salud
 
-## Características Visuales
-- ✅ **Transiciones y efectos visuales suaves con CSS**
-- ✅ **Navegación fluida entre las 9 vistas enlazadas**
-- ✅ **Tipografías personalizadas integradas localmente**
-- ✅ **Interfaz de usuario intuitiva y accesible**
+### 📊 **Dashboard y Estadísticas**
+- ✅ **Contadores en tiempo real** de dueños y mascotas
+- ✅ **Estadísticas de salud** (sanas, enfermas, en tratamiento)
+- ✅ **Actualización automática** al realizar operaciones
+- ✅ **Visualización clara** con badges de estado
 
-## Arquitectura y Código
-- ✅ **Estructura HTML semántica y ordenada**
-- ✅ **Paleta de colores coherente con variables CSS**
-- ✅ **Sin uso de JavaScript, solo HTML y CSS puro**
-- ✅ **Código optimizado y desplegado en GitHub Pages**
+---
+
+## 🚀 Cómo Usar
+
+### 🌐 **Interfaz Web**
+1. **Abrir** `index.html` en tu navegador
+2. **Navegar** por las secciones usando el menú superior
+3. **Usar los botones** para operaciones rápidas:
+   - 👤 Registrar Dueño
+   - 🐕 Registrar Mascota
+   - 🔍 Buscar Mascota
+   - 📋 Ver Todas las Mascotas
+4. **Interactuar** con los modales para gestionar datos
+5. **Ver estadísticas** en el dashboard
+
+### 💻 **Consola Avanzada**
+1. **Presionar F12** para abrir las herramientas de desarrollador
+2. **Ir a la pestaña Console**
+3. **Ejecutar** `iniciarGestionVeterinaria()` para comenzar
+4. **Seguir las instrucciones** en pantalla
+5. **Usar comandos** para operaciones avanzadas
+
+### 📱 **Responsive Design**
+- **Móviles**: Interfaz optimizada para pantallas pequeñas
+- **Tablets**: Diseño adaptativo con navegación mejorada
+- **Desktop**: Experiencia completa con todas las funcionalidades
 
 ---
 
-## 💬 Conclusión
+## 🎨 Características de Diseño
 
-Este proyecto fue un gran reto y una valiosa oportunidad para aplicar todos los conocimientos adquiridos sobre diseño web responsive, estructura semántica en HTML y el poder de CSS puro.  Cada vista fue cuidadosamente construida para simular una experiencia real de usuario en una aerolínea, demostrando que se puede lograr una aplicación visualmente atractiva y funcional sin necesidad de JavaScript o frameworks externos.  Adicionalmente, se ha implementado una lógica de negocio robusta y la gestión de la asincronía con callbacks en JavaScript puro, demostrando que se puede construir un sistema CRUD completo utilizando las herramientas básicas del lenguaje.
+### 🎯 **Paleta de Colores**
+- **Primario**: Verde (#4CAF50) - Representa salud y naturaleza
+- **Secundario**: Naranja (#FF9800) - Energía y cuidado
+- **Acento**: Azul (#2196F3) - Confianza y profesionalismo
+- **Neutrales**: Grises para texto y fondos
+
+### ✨ **Efectos Visuales**
+- **Animaciones suaves** en hover y transiciones
+- **Sombras dinámicas** para profundidad
+- **Gradientes** para fondos atractivos
+- **Backdrop blur** para modales modernos
+
+### 📐 **Layout**
+- **Flexbox y Grid** para layouts responsivos
+- **CSS Variables** para consistencia
+- **Mobile-first** approach
+- **Breakpoints optimizados** para diferentes dispositivos
 
 ---
+
+## 🔧 Funcionalidades Técnicas Avanzadas
+
+### ⚡ **Asincronía Implementada**
+```javascript
+// Callbacks para registro
+registrarDueño((error, dueño) => {
+    if (error) console.error(error);
+    else console.log('Dueño registrado:', dueño);
+});
+
+// Promesas para búsquedas
+buscarMascotaPorNombre()
+    .then(mascota => console.log('Mascota encontrada:', mascota))
+    .catch(error => console.error('Error:', error));
+
+// Async/Await para operaciones secuenciales
+async function actualizarEstadoMascota() {
+    // Operaciones asíncronas secuenciales
+}
+```
+
+### 🛡️ **Validaciones Robustas**
+- **Campos requeridos** verificados
+- **Formatos de email** validados
+- **Números positivos** para edad y peso
+- **Estados de salud** predefinidos
+- **Verificación de duplicados**
+
+### 📊 **Gestión de Estado**
+- **Arrays globales** para datos
+- **Actualización en tiempo real** de contadores
+- **Persistencia** durante la sesión
+- **Sincronización** entre interfaz y consola
+
+---
+
+## 🎯 Casos de Uso
+
+### 🏥 **Para Veterinarios**
+- **Registro rápido** de nuevos pacientes
+- **Seguimiento** del estado de salud
+- **Historial** completo de mascotas por dueño
+- **Estadísticas** de la clínica
+
+### 👨‍💼 **Para Administradores**
+- **Gestión completa** de clientes
+- **Reportes** de mascotas por estado
+- **Control** de información de contacto
+- **Análisis** de datos de la clínica
+
+### 🐾 **Para Dueños**
+- **Información clara** sobre sus mascotas
+- **Estado actualizado** de salud
+- **Historial** de tratamientos
+- **Comunicación** con la clínica
+
+---
+
+## 🚀 Instalación y Uso
+
+### 📥 **Instalación**
+1. **Clonar** el repositorio:
+   ```bash
+   git clone https://github.com/DanielSantiagoV/El-Rincon-del-A miguito.git
+   ```
+
+2. **Navegar** al directorio:
+   ```bash
+   cd El-Rincon-del-A miguito
+   ```
+
+3. **Abrir** en el navegador:
+   ```bash
+   # Opción 1: Doble clic en index.html
+   # Opción 2: Servidor local
+   python -m http.server 8000
+   # Luego abrir http://localhost:8000
+   ```
+
+### 🎮 **Uso Rápido**
+1. **Abrir** `index.html`
+2. **Hacer clic** en "Registrar Dueño"
+3. **Completar** el formulario
+4. **Hacer clic** en "Registrar Mascota"
+5. **Vincular** con el dueño registrado
+6. **Explorar** las demás funcionalidades
+
+---
+
+## 🧪 Pruebas y Validación
+
+### ✅ **Funcionalidades Probadas**
+- **Registro de dueños** con validaciones
+- **Registro de mascotas** con vinculación
+- **Búsquedas** por diferentes criterios
+- **Actualizaciones** de estado
+- **Eliminaciones** con confirmación
+- **Responsive design** en múltiples dispositivos
+- **Navegación** por teclado y mouse
+
+### 🔍 **Casos de Prueba**
+- **Datos inválidos** - Validación correcta
+- **Duplicados** - Prevención de registros duplicados
+- **Campos vacíos** - Mensajes de error apropiados
+- **Navegación** - Flujo completo de usuario
+- **Responsive** - Funcionamiento en móviles
+
+---
+
+## 🎨 Personalización
+
+### 🎨 **Modificar Colores**
+Editar variables CSS en `css/styles.css`:
+```css
+:root {
+    --primary-color: #4CAF50;    /* Color principal */
+    --secondary-color: #FF9800;  /* Color secundario */
+    --accent-color: #2196F3;     /* Color de acento */
+}
+```
+
+### 📝 **Agregar Funcionalidades**
+1. **Modificar** `js/script.js` para lógica de consola
+2. **Actualizar** `js/web-interface.js` para interfaz web
+3. **Añadir** estilos en `css/styles.css`
+4. **Actualizar** `index.html` para nuevos elementos
+
+---
+
+## 🤝 Contribuciones
+
+### 📋 **Cómo Contribuir**
+1. **Fork** el proyecto
+2. **Crear** una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. **Commit** tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** a la rama (`git push origin feature/AmazingFeature`)
+5. **Abrir** un Pull Request
+
+### 🎯 **Áreas de Mejora**
+- **Base de datos** real (MySQL, MongoDB)
+- **Autenticación** de usuarios
+- **API REST** para operaciones
+- **Reportes** en PDF
+- **Notificaciones** por email
+- **Backup** automático de datos
 
 ---
 
@@ -181,32 +338,46 @@ Este proyecto fue un gran reto y una valiosa oportunidad para aplicar todos los 
 > "El código no es solo lo que hago. Es lo que soy. Cada línea de código es una oportunidad para crear algo extraordinario y dejar una huella en el mundo digital." - Daniel Santiago
 
 ---
-## ✨ Características Destacadas 
 
-### 🎯 **Arquitectura Frontend Avanzada**
-✅ 🚫 **Desarrollo nativo puro** - Sin frameworks, solo HTML y JS de alta calidad  
-✅ 📁 **Arquitectura modular** con código limpio y mantenible  
+## 📄 Licencia
 
-### 📱 **Experiencia de Usuario Excepcional**
-✅ 🧭 **Navegación SPA simulada** entre 9 vistas interconectadas fluidamente  
- 
-
-### 💾 **Funcionalidades Backend Simuladas**
-✅ 🔧 **Operaciones CRUD completas** para gestión de dueños y mascotas  
-✅ ⏱️ **Simulación de asincronía** con callbacks y setTimeout (similar a APIs)  
-✅ ✅ **Validación robusta de datos** para integridad de información  
-✅ 🎮 **Interfaz interactiva** con menús de usuario mediante prompt/alert  
-
-### 🚀 **Despliegue y Calidad Profesional**
-✅ 🌐 **Publicado en GitHub Pages** con despliegue automatizado  
-✅ 📊 **Código optimizado** siguiendo mejores prácticas de la industria  
-✅ 📚 **Documentación técnica** completa para mantenimiento futuro  
-✅ 🏆 **Estándares profesionales** aplicados en cada línea de código  
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
 
 ---
-> **🎯 Proyecto Integral:** Combina diseño frontend moderno, funcionalidades backend simuladas y metodologías profesionales de desarrollo, demostrando competencias técnicas avanzadas en un entorno de producción real.
 
-<p align="center">
-  Desarrollado con ❤️ por Daniel Santiago Vinasco<br>
-  🔥 <b><a href="https://github.com/DanielSantiagoV">Visita mi GitHub</a></b> 🚀
-</p>
+## 🙏 Agradecimientos
+
+- **Campuslands** por la formación en desarrollo web
+- **Comunidad de desarrolladores** por el apoyo y feedback
+- **Mascotas del mundo** por la inspiración para este proyecto
+
+---
+
+## 📈 Roadmap
+
+### 🚀 **Próximas Funcionalidades**
+- [ ] **Base de datos** real con MySQL
+- [ ] **Sistema de usuarios** con autenticación
+- [ ] **API REST** para operaciones
+- [ ] **Reportes** en PDF automáticos
+- [ ] **Notificaciones** por email/SMS
+- [ ] **App móvil** nativa
+- [ ] **Dashboard** con gráficos avanzados
+- [ ] **Sistema de citas** y recordatorios
+
+### 🎯 **Mejoras Técnicas**
+- [ ] **Testing** automatizado con Jest
+- [ ] **CI/CD** con GitHub Actions
+- [ ] **Docker** para containerización
+- [ ] **PWA** (Progressive Web App)
+- [ ] **Offline mode** con Service Workers
+
+---
+
+## ⭐ ¡Dale una Estrella!
+
+Si este proyecto te ha sido útil, ¡considera darle una estrella en GitHub! ⭐
+
+---
+
+*Desarrollado con ❤️ por Daniel Santiago para la comunidad de desarrolladores.*

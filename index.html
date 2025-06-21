@@ -3,13 +3,374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clínica Veterinaria 'El Rincón del Amiguito' - Versión Sencilla 🐾</title>
+    <title>Clínica Veterinaria 'El Rincón del Amiguito' 🐾</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
 </head>
 <body>
-    <h1>¡Bienvenido a la Clínica Veterinaria 'El Rincón del Amiguito'!</h1>
-    <p>Para interactuar con el sistema de gestión, por favor, abre la consola de tu navegador (usualmente con F12 o clic derecho > Inspeccionar).</p>
-    <p>Esta es la versión más sencilla para que nadie se pierda en el cuidado de nuestros amigos.</p>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>El Rincón del Amiguito</span>
+            </a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="#gestion" class="nav-link">Gestión</a></li>
+                    <li><a href="#consola" class="nav-link">Consola</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="inicio" class="container fade-in">
+            <div class="hero">
+                <h1 class="hero-title">🏥 Clínica Veterinaria 'El Rincón del Amiguito'</h1>
+                <p class="hero-subtitle">Cuidando a tus mejores amigos con amor y profesionalismo</p>
+                <p class="hero-description">
+                    Sistema de gestión veterinaria completo que te permite administrar dueños y mascotas de manera eficiente. 
+                    Utiliza las funcionalidades web o accede a la consola para operaciones avanzadas.
+                </p>
+                <div class="btn-group">
+                    <button class="btn btn-primary btn-large" onclick="mostrarModal('registro-dueno')">
+                        <span>👤</span>
+                        Registrar Dueño
+                    </button>
+                    <button class="btn btn-secondary btn-large" onclick="mostrarModal('registro-mascota')">
+                        <span>🐕</span>
+                        Registrar Mascota
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="iniciarConsola()">
+                        <span>💻</span>
+                        Abrir Consola
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="servicios" class="container slide-in-left">
+            <h2 class="card-title text-center mb-4">🛠️ Servicios Disponibles</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">👤</span>
+                        <h3 class="card-title">Gestión de Dueños</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>Registra y administra la información de los dueños de mascotas con validación completa de datos.</p>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>Registro con validación</li>
+                            <li>Búsqueda por cédula</li>
+                            <li>Datos completos del propietario</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🐕</span>
+                        <h3 class="card-title">Gestión de Mascotas</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>Control completo del historial médico y datos de las mascotas con operaciones CRUD.</p>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>Registro de mascotas</li>
+                            <li>Actualización de estado de salud</li>
+                            <li>Búsqueda y eliminación</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🔍</span>
+                        <h3 class="card-title">Búsquedas Avanzadas</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>Encuentra rápidamente la información que necesitas con nuestras herramientas de búsqueda.</p>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>Búsqueda por nombre</li>
+                            <li>Filtros por especie</li>
+                            <li>Historial por dueño</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">⚡</span>
+                        <h3 class="card-title">Operaciones Asíncronas</h3>
+                    </div>
+                    <div class="card-content">
+                        <p>Simulación de operaciones reales con callbacks, promesas y async/await para una experiencia profesional.</p>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>Callbacks para registro</li>
+                            <li>Promesas para búsquedas</li>
+                            <li>Async/Await para actualizaciones</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Management Section -->
+        <section id="gestion" class="container slide-in-right">
+            <h2 class="card-title text-center mb-4">📊 Panel de Gestión</h2>
+            
+            <!-- Quick Actions -->
+            <div class="card mb-4">
+                <h3 class="card-title mb-3">⚡ Acciones Rápidas</h3>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="mostrarModal('registro-dueno')">
+                        <span>👤</span>
+                        Nuevo Dueño
+                    </button>
+                    <button class="btn btn-secondary" onclick="mostrarModal('registro-mascota')">
+                        <span>🐕</span>
+                        Nueva Mascota
+                    </button>
+                    <button class="btn btn-outline" onclick="mostrarModal('buscar-mascota')">
+                        <span>🔍</span>
+                        Buscar Mascota
+                    </button>
+                    <button class="btn btn-outline" onclick="mostrarModal('listar-mascotas')">
+                        <span>📋</span>
+                        Ver Todas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">👥</span>
+                        <h3 class="card-title">Dueños Registrados</h3>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-center" style="font-size: 2rem; font-weight: bold; color: var(--primary-color);" id="contador-duenos">0</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🐾</span>
+                        <h3 class="card-title">Mascotas Registradas</h3>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-center" style="font-size: 2rem; font-weight: bold; color: var(--secondary-color);" id="contador-mascotas">0</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🩺</span>
+                        <h3 class="card-title">En Tratamiento</h3>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-center" style="font-size: 2rem; font-weight: bold; color: var(--warning-color);" id="contador-tratamiento">0</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">✅</span>
+                        <h3 class="card-title">Mascotas Sanas</h3>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-center" style="font-size: 2rem; font-weight: bold; color: var(--success-color);" id="contador-sanas">0</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Console Section -->
+        <section id="consola" class="container">
+            <h2 class="card-title text-center mb-4">💻 Consola de Gestión</h2>
+            
+            <div class="alert alert-info">
+                <strong>💡 Tip:</strong> Para usar la consola avanzada, haz clic en "Abrir Consola" o presiona F12 en tu navegador.
+            </div>
+
+            <div class="card">
+                <h3 class="card-title mb-3">🖥️ Salida de Consola</h3>
+                <div class="console-output" id="console-output">
+                    Bienvenido a la Clínica Veterinaria 'El Rincón del Amiguito' 🐾
+                    
+                    Para comenzar, puedes:
+                    1. Usar los botones de arriba para operaciones rápidas
+                    2. Abrir la consola del navegador (F12) para comandos avanzados
+                    3. Usar los modales para gestionar datos
+                    
+                    ¡Todo listo para cuidar a tus amigos peludos! 🐕🐱
+                </div>
+                
+                <div class="btn-group mt-4">
+                    <button class="btn btn-primary" onclick="iniciarConsola()">
+                        <span>🚀</span>
+                        Iniciar Sistema
+                    </button>
+                    <button class="btn btn-outline" onclick="limpiarConsola()">
+                        <span>🧹</span>
+                        Limpiar Consola
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" class="footer-link">Inicio</a>
+                <a href="#servicios" class="footer-link">Servicios</a>
+                <a href="#gestion" class="footer-link">Gestión</a>
+                <a href="#consola" class="footer-link">Consola</a>
+            </div>
+            <p>&copy; 2024 Clínica Veterinaria 'El Rincón del Amiguito'. Desarrollado con ❤️ por Daniel Santiago.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    
+    <!-- Modal Registro Dueño -->
+    <div id="modal-registro-dueno" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">👤 Registrar Nuevo Dueño</h3>
+                <button class="modal-close" onclick="cerrarModal('registro-dueno')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-dueno">
+                    <div class="form-group">
+                        <label for="nombre-dueno" class="form-label">Nombre Completo *</label>
+                        <input type="text" id="nombre-dueno" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cedula-dueno" class="form-label">Número de Cédula *</label>
+                        <input type="text" id="cedula-dueno" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono-dueno" class="form-label">Teléfono *</label>
+                        <input type="tel" id="telefono-dueno" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email-dueno" class="form-label">Correo Electrónico *</label>
+                        <input type="email" id="email-dueno" class="form-input" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="cerrarModal('registro-dueno')">Cancelar</button>
+                <button class="btn btn-primary" onclick="registrarDueñoWeb()">Registrar Dueño</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Registro Mascota -->
+    <div id="modal-registro-mascota" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🐕 Registrar Nueva Mascota</h3>
+                <button class="modal-close" onclick="cerrarModal('registro-mascota')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-mascota">
+                    <div class="form-group">
+                        <label for="nombre-mascota" class="form-label">Nombre de la Mascota *</label>
+                        <input type="text" id="nombre-mascota" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="especie-mascota" class="form-label">Especie *</label>
+                        <select id="especie-mascota" class="form-select" required>
+                            <option value="">Selecciona una especie</option>
+                            <option value="Perro">🐕 Perro</option>
+                            <option value="Gato">🐱 Gato</option>
+                            <option value="Ave">🦜 Ave</option>
+                            <option value="Reptil">🦎 Reptil</option>
+                            <option value="Otro">🐾 Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edad-mascota" class="form-label">Edad (años) *</label>
+                        <input type="number" id="edad-mascota" class="form-input" min="0" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="peso-mascota" class="form-label">Peso (kg) *</label>
+                        <input type="number" id="peso-mascota" class="form-input" min="0" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="estado-mascota" class="form-label">Estado de Salud *</label>
+                        <select id="estado-mascota" class="form-select" required>
+                            <option value="">Selecciona el estado</option>
+                            <option value="Sano">✅ Sano</option>
+                            <option value="Enfermo">🤒 Enfermo</option>
+                            <option value="En tratamiento">🩺 En tratamiento</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cedula-dueno-mascota" class="form-label">Cédula del Dueño *</label>
+                        <input type="text" id="cedula-dueno-mascota" class="form-input" required>
+                        <small style="color: var(--gray);">El dueño debe estar registrado previamente</small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="cerrarModal('registro-mascota')">Cancelar</button>
+                <button class="btn btn-primary" onclick="registrarMascotaWeb()">Registrar Mascota</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Buscar Mascota -->
+    <div id="modal-buscar-mascota" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔍 Buscar Mascota</h3>
+                <button class="modal-close" onclick="cerrarModal('buscar-mascota')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="nombre-busqueda" class="form-label">Nombre de la Mascota</label>
+                    <input type="text" id="nombre-busqueda" class="form-input" placeholder="Ingresa el nombre de la mascota">
+                </div>
+                <div id="resultado-busqueda"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="cerrarModal('buscar-mascota')">Cerrar</button>
+                <button class="btn btn-primary" onclick="buscarMascotaWeb()">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Listar Mascotas -->
+    <div id="modal-listar-mascotas" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title">📋 Lista de Mascotas</h3>
+                <button class="modal-close" onclick="cerrarModal('listar-mascotas')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="lista-mascotas-container"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="cerrarModal('listar-mascotas')">Cerrar</button>
+                <button class="btn btn-primary" onclick="actualizarListaMascotas()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="./js/script.js"></script>
+    <script src="./js/web-interface.js"></script>
+    <script src="./js/demo-data.js"></script>
 </body>
 </html>
